@@ -15,7 +15,7 @@ services:
         ulimits:
             nofile: 20000
         volumes:
-            - /home/appo/.config/whiteblock/rpc/:/root/.config/whiteblock/
+            - /home/whiteblock/.config/whiteblock/rpc/:/root/.config/whiteblock/
     genesis:
         container_name: genesis
         image: "gcr.io/wb-genesis/genesis:$WB_BRANCH"
@@ -24,8 +24,8 @@ services:
             LISTEN: "127.0.0.1:8000"
             SSH_KEY: "/root/.ssh/id_ed25519"
             RSA_KEY: "/root/.ssh/id_ed25519"
-            SSH_USER: "appo"
-            RSA_USER: "appo"
+            SSH_USER: "whiteblock"
+            RSA_USER: "whiteblock"
             IP_PREFIX: "10"
             SERVER_BITS: "8"
             CLUSTER_BITS: "12"
@@ -47,8 +47,8 @@ services:
             - "8000:8000"
         restart: always
         volumes: 
-            - /home/appo/.ssh:/root/.ssh
-            - /home/appo/.config/whiteblock/:/root/.config/whiteblock/
+            - /home/whiteblock/.ssh:/root/.ssh
+            - /home/whiteblock/.config/whiteblock/:/root/.config/whiteblock/
             - /home/master-secrets/:/keys/
     record:
         container_name: record
@@ -70,7 +70,7 @@ services:
             - "6060:6060"
         restart: always
         volumes:
-            - /home/appo/.config/whiteblock/record/:/root/.config/whiteblock/
+            - /home/whiteblock/.config/whiteblock/record/:/root/.config/whiteblock/
 
     record2:
         container_name: record2
@@ -94,7 +94,7 @@ services:
             - "6060:6060"
         restart: always
         volumes:
-            - /home/appo/.config/whiteblock/record2/:/root/.config/whiteblock/
+            - /home/whiteblock/.config/whiteblock/record2/:/root/.config/whiteblock/
     router:
         container_name: router
         depends_on:

@@ -1,15 +1,15 @@
 #!/bin/bash
 
-#INSTALL DOCKER
-apt-get update
-apt-get install -y apt-transport-https ca-certificates curl software-properties-common
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-apt-key fingerprint 0EBFCD88
-add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+#INSTALL DOCKER CREDENTIALS
 
-apt-get update
-apt-get install -y docker-ce
+VERSION=1.5.0
+OS=linux
+ARCH=amd64
 
-#INSTALL DOCKER COMPOSE
-curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
+curl -fsSL "https://github.com/GoogleCloudPlatform/docker-credential-gcr/releases/download/v${VERSION}/docker-credential-gcr_${OS}_${ARCH}-${VERSION}.tar.gz" \
+  | tar xz --to-stdout ./docker-credential-gcr \
+  | sudo tee /usr/bin/docker-credential-gcr > /dev/null && sudo chmod +x /usr/bin/docker-credential-gcr
+
+docker-credential-gcr configure-docker
+
+#CLONE THE BIOME REPO 
