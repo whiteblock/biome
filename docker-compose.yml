@@ -2,8 +2,6 @@ version: '3.6'
 services:
     rpc:
         container_name: rpc
-        depends_on:
-            - influx
         environment:
             RPC_PORT: "7777"
             RPC_IP: "127.0.0.1"
