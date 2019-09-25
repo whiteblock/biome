@@ -4,5 +4,3 @@
 
 gcloud auth configure-docker
 docker-credential-gcr configure-docker
-
-#CLONE THE BIOME REPO 
