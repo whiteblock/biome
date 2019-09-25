@@ -1,7 +1,6 @@
 #!/bin/bash -xeu
 
 export WB_BRANCH=${WB_BRANCH:-dev}
-export WB_TOKEN_ISSUER=${WB_TOKEN_ISSUER:-api.whiteblock.io}
 
 pushd /root/biome
 
