@@ -1,21 +1,5 @@
 version: '3.6'
 services:
-    rpc:
-        container_name: rpc
-        environment:
-            RPC_PORT: "7777"
-            RPC_IP: "127.0.0.1"
-            RPC_THREADS: "20"
-            DATADIR: "/root/.config/whiteblock/"
-        image: "gcr.io/wb-genesis/rpc:$WB_BRANCH"
-        network_mode: "host"
-        ports: 
-            - "7070:7070"
-        restart: always
-        ulimits:
-            nofile: 20000
-        volumes:
-            - /home/whiteblock/.config/whiteblock/rpc/:/root/.config/whiteblock/
     genesis:
         container_name: genesis
         image: "gcr.io/wb-genesis/genesis:$WB_BRANCH"
@@ -40,7 +24,6 @@ services:
             HANDLE_NODES_SSH_KEYS: 1
             MAX_COMMAND_OUTPUT_LOG_SIZE: "200"
             VERBOSITY: WARN
-            API_ENDPOINT: "$API_URL"
         env_file:
             - biome.env
         ports: 
@@ -50,76 +33,3 @@ services:
             - /home/whiteblock/.ssh:/root/.ssh
             - /home/whiteblock/.config/whiteblock/:/root/.config/whiteblock/
             - /home/master-secrets/:/keys/
-    record:
-        container_name: record
-        depends_on:
-            - rpc
-        environment:
-            RPC: "127.0.0.1:7777"
-            LOG_DIRECTORY: "/"
-            UPDATE_INTERVAL: "500"
-            LISTEN: "127.0.0.1:6060"
-            MAX_BLOCKS_TO_LOAD: "40"
-            MAX_CONNECTIONS: "50"
-            DATADIR: "/root/.config/whiteblock/"
-            VERBOSITY: WARN
-            API_URL: "$API_URL"
-        image: "gcr.io/wb-genesis/bitbucket.org/whiteblockio/record:$WB_BRANCH"
-        network_mode: "host"
-        ports:
-            - "6060:6060"
-        restart: always
-        volumes:
-            - /home/whiteblock/.config/whiteblock/record/:/root/.config/whiteblock/
-
-    record2:
-        container_name: record2
-        depends_on:
-            - rpc
-        environment:
-            RPC: "127.0.0.1:7777"
-            LOG_DIRECTORY: "/"
-            UPDATE_INTERVAL: "500"
-            LISTEN: "127.0.0.1:6061"
-            MAX_BLOCKS_TO_LOAD: "40"
-            MAX_CONNECTIONS: "2"
-            DATADIR: "/root/.config/whiteblock/"
-            VERBOSITY: WARN
-            TIMEOUT_ON_FAIL: "2000"
-            MAX_API_ATTEMPTS: "50"
-            API_URL: "$API_URL"
-        image: "gcr.io/wb-genesis/record:$WB_BRANCH"
-        network_mode: "host"
-        ports:
-            - "6060:6060"
-        restart: always
-        volumes:
-            - /home/whiteblock/.config/whiteblock/record2/:/root/.config/whiteblock/
-    router:
-        container_name: router
-        depends_on:
-            - rpc
-            - genesis
-            - record
-        image: "gcr.io/wb-genesis/router:$WB_BRANCH"
-        network_mode: "host"
-        environment:
-            GENESIS: "127.0.0.1:8000"
-            RPC: "127.0.0.1:7777"
-            LISTEN: "127.0.0.1:5000"
-            LISTEN_TLS: "0.0.0.0:5001"
-            UPDATE_INTERVAL: "1000"
-            RECORD: "127.0.0.1:6060"
-            ROUTER_USE_TLS: 1
-            KEY_PATH: "/etc/secrets/router.key"
-            CERT_PATH: "/etc/secrets/router.crt"
-            VERBOSITY: WARN
-            API_URL: "$API_URL"
-            WB_TOKEN_ISSUER: "$WB_TOKEN_ISSUER"
-        env_file:
-            - biome.env
-        ports:
-            - "5000:5000"
-        restart: always
-        volumes:
-            - /etc/secrets:/etc/secrets
