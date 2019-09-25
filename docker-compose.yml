@@ -2,7 +2,7 @@ version: '3.6'
 services:
     genesis:
         container_name: genesis
-        image: "gcr.io/wb-genesis/genesis:$WB_BRANCH"
+        image: "gcr.io/whiteblock/genesis:$WB_BRANCH"
         network_mode: "host"
         environment:
             LISTEN: "127.0.0.1:8000"
