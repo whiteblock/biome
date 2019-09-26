@@ -19,11 +19,12 @@ services:
             NODE_PREFIX: "whiteblock-node"
             NODE_NETWORK_PREFIX: "wb_vlan_"
             SERVICE_PREFIX: "wb_service"
-            NODES_PUBLIC_KEY: /keys/id.master.pub
-            NODES_PRIVATE_KEY: /keys/id.master
+            NODES_PUBLIC_KEY: /keys/id_ed25519.pub
+            NODES_PRIVATE_KEY: /keys/id_ed25519
             HANDLE_NODES_SSH_KEYS: 1
             MAX_COMMAND_OUTPUT_LOG_SIZE: "200"
             VERBOSITY: WARN
+            ENABLE_DOCKER_LOGGING: "true"
         env_file:
             - biome.env
         ports: 
@@ -32,4 +33,4 @@ services:
         volumes: 
             - /home/whiteblock/.ssh:/root/.ssh
             - /home/whiteblock/.config/whiteblock/:/root/.config/whiteblock/
-            - /home/master-secrets/:/keys/
+            - /home/whiteblock/.ssh/:/keys/
