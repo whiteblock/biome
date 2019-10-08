@@ -8,8 +8,6 @@ docker-compose down
 
 docker-compose pull
 
-./update-cli.sh
-
 docker-compose up -d
 
 popd
